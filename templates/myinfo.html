@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>name:{{name}}
+<p>money:{{money}}
+
+<p>cloths:
+{% for i in row1 %}
+<p>
+<form action="/equip_info" method="get">
+    {{i[1]}}&nbsp&nbsp<input type="submit" name="equipments" value={{i[0]}}>
+</form>
+{% endfor %}
+<p>storage:
+{% for i in row2 %}
+<p></p>
+<form action="/sto_info" method="get">
+    {{i[1]}}&nbsp&nbsp<input type="submit" name="storage" value={{i[0]}}>
+</form>
+{% endfor %}
+<form action="/homepage" method="get">
+ <input type="submit" name="storage" value="大厅">
+</form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>购买成功
+{% if tag ==1%}
+<p>仓库已满，自动丢弃对低级的装备
+{% endif %}
+<form action="/marinfo" method="get">
+    点击返回商场：<input type="submit" value="back">
+</form>
+</body>
+</html>

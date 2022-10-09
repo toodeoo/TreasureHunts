@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if tag==0%}
+<p>恭喜你，{{name}}，注册成功
+<p>送你十个金币，一只帽子，一个充电器作为见面礼，愿你玩得开心
+    {% endif %}
+    {% if tag==1%}
+    <p>重复注册
+    {% endif %}
+<p>点击返回主页<form action="/" method="get">
+	<input type="submit" value="返回">
+</form>
+</body>
+</html>

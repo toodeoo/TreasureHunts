@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if tag ==0%}
+<p>穿上成功
+{% endif %}
+{% if tag ==1%}
+<p>穿上失败，因为最多只可以穿两件饰品和一件工具
+{% endif %}
+<form action="/myinfo" method="get">
+    点击返回个人主页：<input type="submit" value="back">
+</form>
+</body>
+</html>

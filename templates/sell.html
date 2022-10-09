@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>我的仓库
+<p>storage:
+{% for i in re%}
+<p></p>
+<form action="/sell_it" method="get">
+ <p>点击出售    {{i[0]}},id:<input type="submit" name="equipments" value={{i[1]}}>
+    <p>出售价格<input type="text" name="price">
+</form>
+<p>品质：{{i[4]}}运气值：{{i[2]}}工作能力：{{i[3]}}
+<p></p>
+<p></p>>
+{% endfor %}
+<form action="/homepage" method="get">
+ <input type="submit" name="storage" value="大厅">
+</form>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "username": "root",
+  "pwd": "123456",
+  "money": 100,
+  "treasureId":1,
+  "luck": 10,
+  "work": 20
+}
