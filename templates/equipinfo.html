@@ -5,14 +5,14 @@
 </head>
 <body>
 
-<p>name:装备1
-<p>id:equip00001
-<p>class:护甲类
-<p>luck:3
-<p>ability:3
-<p>quality:4
+<p>name:{{name}}
+<p>id:equip{{id}}
+<p>class:{{equip_type}}
+<p>luck:{{luck}}
+<p>ability:{{ability}}
+<p>quality:{{quality}}
 <form action="/take_off" method="get">
-    拆下<input type="submit" name='equipments' value='装备1'>
+    拆下<input type="submit" name='equipments' value='{{name}}'>
 </form>
 </body>
 </html>

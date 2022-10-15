@@ -6,11 +6,11 @@
 <body>
 
 <p>name:{{name}}
-<p>id:equip{{treasureId}}
-<p>class:{{cla}}
+<p>id:equip{{id}}
+<p>class:{{equip_type}}
 <p>luck:{{luck}}
 <p>ability:{{ability}}
-<!--<p>quality:4-->
+<p>quality:{{quality}}
 <form action="/take_on" method="get">
    穿上&nbsp&nbsp<input type="submit" name='equipments' value='{{name}}'>
 </form>

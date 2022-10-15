@@ -3,6 +3,7 @@
   "name": "aaaaa",
   "class": 0,
   "property": 10,
+  "quality": 10,
   "isArmed": 1,
   "isSealed": 0
 }
