@@ -4,14 +4,15 @@
     <title>Title</title>
 </head>
 <body>
+<!-- i[0] 是编号， i[1] 是名称， i[2] 是品质，i[3] 是运气，i[4] 是工作能力， i[5] 是价格，i[6] 是卖家名称  -->
 <p><h1>商场</h1>
 {% for i in re %}
 <p><h3>{{i[0]}}</h3>
 <form action="/buy" method="get">
-    购买<input type="submit" name='id' value={{i[1]}}>
+    购买<input type="submit" name='name' value={{i[1]}}>
 </form>
 <p>品质：{{i[2]}}运气值：{{i[3]}}工作能力：{{i[4]}}
-    <p>          价格：10       卖家：系统
+    <p>          价格：{{i[5]}}       卖家：{{i[6]}}
 {% endfor %}
 <form action="/homepage" method="get">
  <input type="submit" name="storage" value="大厅">
