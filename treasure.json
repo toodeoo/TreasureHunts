@@ -1,9 +1,8 @@
 {
-  "treasureId": 1,
-  "name": "aaaaa",
+  "treasureId": 2,
+  "name": "充电器",
   "class": 0,
   "property": 10,
   "quality": 10,
-  "isArmed": 1,
-  "isSealed": 0
+  "level": "等级一"
 }

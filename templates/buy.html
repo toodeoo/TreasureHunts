@@ -4,8 +4,12 @@
     <title>Title</title>
 </head>
 <body>
-
+{% if tag ==0%}
 <p>购买成功
+{% endif %}
+{% if tag ==2%}
+<p>金钱不足
+{% endif %}
 {% if tag ==1%}
 <p>仓库已满，自动丢弃对低级的装备
 {% endif %}
