@@ -1,16 +1,21 @@
 from flask import Flask, request, render_template, url_for, make_response
+from apscheduler.schedulers.background import BackgroundScheduler
 import pymongo
 import random
 from werkzeug.utils import redirect
 from hashlib import md5
-
-app = Flask(__name__)
 
 # Connect to Database
 # 数据库中，Treasure 的class 0代表工具， 1代表配饰
 # 设置存储箱的最大存储量为 20
 
 max_storage = 20
+max_luck = 100
+day_time = 3600
+
+app = Flask(__name__)
+app.config['DEBUG'] = True
+app.secret_key = '123456'
 
 
 def auto_dropout(person, itemId):
@@ -25,6 +30,33 @@ def auto_dropout(person, itemId):
         backpack_item[0]["treasureId"] = item_id
         backpack = [i.get("treasureId") for i in backpack_item]
     return backpack
+
+
+def hunt(person):
+    luck = int(person.get('luck') / max_luck)
+    bound = random.randint(1, luck) * 0.7 + random.randint(luck + 1, 10) * 0.3
+    treasure_list = list(db['Treasure'].find({"level": {"$lte": int(bound), "$gte": 1}}).sort("level",
+                                                                                              pymongo.DESCENDING))
+    idx = random.choice(treasure_list)
+    backpack = person.get("backpack")
+    tag = 0
+    if len(backpack) == max_storage:
+        tag = 1
+        backpack = auto_dropout(person, treasure_list[idx].get("treasureId"))
+    else:
+        backpack.append(treasure_list[idx].get("treasureId"))
+    db['User'].update_one({"username": person.get("username")},
+                          {"$set": {"backpack": backpack}})
+    return treasure_list[idx], tag
+
+
+def work(person):
+    ability = person.get("ability")
+    money = person.get("money")
+    money += int(ability / 2)
+    db['User'].update_one({"username": person.get("username")},
+                          {"$set": {"money": money}})
+    return money
 
 
 # Checked
@@ -46,6 +78,11 @@ def login():
         if person.get('pwd') == pwd:
             reps = make_response(render_template('homepage.html', re=[name]))
             reps.set_cookie("username", name)
+            scheduler.add_job(func=hunt, args=(person,), id="hunt",
+                              trigger="interval", seconds=day_time, replace_existing=True)
+            scheduler.add_job(func=work, args=(person,), id="work",
+                              trigger="interval", seconds=day_time / 2, replace_existing=True)
+            scheduler.start()
             return reps
 
 
@@ -183,7 +220,6 @@ def take_off():
 
 
 # Checked
-# TODO: 如果物品是放在商场贩卖的话，我们不能装备
 @app.route('/take_on')
 def take_on():
     user = db['User']
@@ -193,6 +229,10 @@ def take_on():
     item = treasure.find_one({"name": request.args.get('equipments')})
     item_class = item.get('class')
     armed = person.get('arm')
+    market = db['Market']
+    if market.find_one({"seller": person.get("username"), "treasureId": item.get("treasureId")}) is None:
+        tag = 2
+        return render_template('take_on.html', tag=tag)
     if len(armed) == 0:
         armed = [item.get("treasureId")]
         backpack = person.get('backpack')
@@ -280,10 +320,9 @@ def buy():
 def sell():
     re = []
     user = db['User']
-    market = db['Market']
     treasure = db['Treasure']
 
-    person = user.find_one({"username": request.args.get('username')})
+    person = user.find_one({"username": request.cookies.get('username')})
     backpack = person.get('backpack')
     item_list = treasure.find({"treasureId": {"$in": backpack}})
     for i in item_list:
@@ -309,16 +348,19 @@ def sell_it():
 
 @app.route('/look_for_treasure')
 def look_for_treasure():
-    return render_template('look_for_treasure.html', equip_name='手套', tag=0)
+    person = db['User'].find_one({"username": request.cookies.get("username")})
+    item, tag = hunt(person)
+    return render_template('look_for_treasure.html', equip_name=item.get("name"), tag=tag)
 
 
 @app.route('/look_for_money')
 def look_for_money():
-    return render_template('look_for_money.html', money=10)
+    person = db['User'].find_one({"username": request.cookies.get("username")})
+    money = work(person)
+    return render_template('look_for_money.html', money=money)
 
 
-app.config['DEBUG'] = True
-app.secret_key = '123456'
+scheduler = BackgroundScheduler()
 
 if __name__ == '__main__':
     setting = {
