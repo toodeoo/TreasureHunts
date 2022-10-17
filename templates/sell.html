@@ -9,10 +9,10 @@
 {% for i in re%}
 <p></p>
 <form action="/sell_it" method="get">
- <p>点击出售    {{i[0]}}, name:<input type="submit" name="name" value={{i[1]}}>
+ <p>点击出售    {{i[0]}}&nbsp&nbsp<input type="submit" name="name" value={{i[1]}}>
     <p>出售价格<input type="text" name="price">
 </form>
-<p>品质：{{i[2]}} 运气值：{{i[3]}} 工作能力：{{i[4]}}
+<p>品质：{{i[2]}} ,运气值：{{i[3]}} ,工作能力：{{i[4]}}
 <p></p>
 <p></p>>
 {% endfor %}

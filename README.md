@@ -52,7 +52,7 @@
   "class": 0,
   "property": 10,
   "quality": 10,
-  "level": "等级一"
+  "level": 1
 }
 ```
 
